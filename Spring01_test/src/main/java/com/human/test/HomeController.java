@@ -1,10 +1,8 @@
-package com.human.cafe;
+package com.human.test;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Handles requests for the application home page.
@@ -37,25 +34,6 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
-	}
-	
-	@RequestMapping(value = "/test1", method = RequestMethod.GET)
-	public String test1(Locale locale, Model model, HttpServletRequest r) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		String name = r.getParameter("nnn");
-		System.out.println(name);
-		model.addAttribute("sss", name);
-		
-		return "ttt";
-	}
-	
-	@RequestMapping(value = "/test2", method = RequestMethod.GET)
-	public String test2(Locale locale, Model model, @RequestParam("nnn") String name) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		System.out.println(name);
-		model.addAttribute("sss", name);
-		
-		return "ttt";
 	}
 	
 }
