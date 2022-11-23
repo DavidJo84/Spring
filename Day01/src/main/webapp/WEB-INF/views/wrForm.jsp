@@ -6,8 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
- <%-- <style> <%@include file="../css/shopping.css" %></style> --%>
- <%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/WEB-INF/view/css/shopping.css"> --%>
+ <style> <%@include file="../css/shopping.css" %></style>
+<%--  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/shopping.css"> --%>
 </head>
 <script>
    //비동기로
