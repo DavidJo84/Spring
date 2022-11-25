@@ -1,5 +1,6 @@
-package com.human.day02;
+package com.human.day03;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -40,9 +41,10 @@ public class BbsController {
 	}
 	
 	@RequestMapping(value = "/bbsList", method = RequestMethod.GET)
-	public String bbsList(Locale locale, Model model) {
+	public String bbsList(Locale locale, Model model) throws Exception {
 
-		
+		List<BoardVO> bList = bsrv.selectAll();
+		model.addAttribute("bList", bList);
 		return "bbs/bbsList";
 	}
 	

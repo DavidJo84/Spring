@@ -8,11 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertOne" parameterType="com.human.vo.BoardVO">
 		insert into board1 values (board1_cnt.nextval,#{name},#{email},#{title},#{content},#{pass},default,default)
 	</insert>
-	<!-- <update id=""></update>  -->
-	
+	<!-- <update id=""></update> <select id=""></select> <delete id=""></delete> -->
 	<select id="selectAll" resultType="com.human.vo.BoardVO">
 		select * from board1
 	</select> 
-	
-	<!-- <delete id=""></delete> -->
 </mapper>
