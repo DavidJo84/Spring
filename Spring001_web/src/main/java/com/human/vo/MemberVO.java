@@ -6,7 +6,16 @@ public class MemberVO {
 	private String pass;
 	private String tel;
 	private int point;
+	private String indate;
 	private String grade;
+	
+	public String getIndate() {
+		return indate;
+	}
+
+	public void setIndate(String indate) {
+		this.indate = indate;
+	}
 
 	public String getTel() {
 		return tel;

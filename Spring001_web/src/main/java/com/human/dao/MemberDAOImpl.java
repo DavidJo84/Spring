@@ -17,21 +17,27 @@ public class MemberDAOImpl implements IF_memberDAO {
 	
 	@Override
 	public void insertOne(MemberVO mvo) throws Exception {
-		// TODO Auto-generated method stub
 		sqlSession.insert(mapperQuery+".insertOne", mvo);
 	}
 
 	@Override
 	public List<MemberVO> selectAll() throws Exception {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList(mapperQuery+".selectAll");
 	}
 
 	@Override
 	public MemberVO selectOne(MemberVO mvo) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println(mvo.getId()+"다오");
 		return sqlSession.selectOne(mapperQuery+".selectOne", mvo);
 	}
 
+	@Override
+	public void updateOne(MemberVO mvo) throws Exception {
+		sqlSession.update(mapperQuery+".updateOne", mvo);
+		
+	}
+	
+	@Override
+	public void deleteOne(String id) throws Exception {
+		sqlSession.delete(mapperQuery+".deleteOne", id);
+	}
 }

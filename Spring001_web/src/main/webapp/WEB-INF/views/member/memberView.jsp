@@ -39,8 +39,12 @@
 					<th>포인트</th>
 					<td>${mvo.point }</td>
 				</tr>
+				<tr>
+					<th>가입일</th>
+					<td>${mvo.indate }</td>
+				</tr>
 			</table>
-			<br> <br> <input type="submit" value="회원가입">
+			<br>
 		</form>
 	</div>
 </body>

@@ -33,7 +33,7 @@
 				</tr>
 				<tr>
 					<th>등급</th>
-					<td><input type="radio" name="grade" value="vip">VIP <input type="radio" name="grade" value="일반"> 일반</td>
+					<td><select name="grade"><option value="vip">VIP</option><option value="일반"> 일반</option></select></td>
 				</tr>
 			</table>
 			<br> <br> <input type="submit" value="회원가입">

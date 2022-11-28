@@ -168,7 +168,6 @@
 			<version>21.7.0.0</version>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.security/osdt_cert -->
 		<dependency>
 			<groupId>com.oracle.database.security</groupId>

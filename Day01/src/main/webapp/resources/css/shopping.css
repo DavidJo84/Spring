@@ -29,11 +29,6 @@ th {
 	background: yellowgreen; /* 배경색 */
 }
 
-img {
-	width: 220px; /* 이미지 너비(가로) */
-	height: 300px; /* 이미지 높이(세로) */
-}
-
 a {
 	text-decoration: none; /* 링크 밑줄 없애기 */
 	color: black; /* 글 색상 */

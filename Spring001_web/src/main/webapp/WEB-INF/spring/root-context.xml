@@ -13,7 +13,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<!-- 오라클 bean -->
-	   <bean
+	<bean
       class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
       <property value="oracle.jdbc.driver.OracleDriver" name="driverClassName" />
       <property value="jdbc:oracle:thin:@humanDB_high?TNS_ADMIN = C:/Users/human/Desktop/Wallet_humanDB"   name="url" />
@@ -24,7 +24,6 @@
    </bean>
    
    	<!-- mybatis 사용하기 위한 객체를 설정. 스프링이 구동되면서 객체를 만들어 컨테이너에 등록시킨다. -->
-   	
    	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
       id="sqlSessionFactory">
       <property name="dataSource" ref="dataSource" />             
@@ -33,12 +32,10 @@
    </bean>
    
    <!-- 지금 설정하는 bean객체를 DAO가 주소를 주입받아 mybatis의 작업을 요청. -->
-   
    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
       <constructor-arg index="0" ref="sqlSessionFactory" />
    </bean>
    <context:component-scan base-package="com.human.dao"/> <!-- 지정된 패키지의 클래스를 파일을 스캔하여 객체로 만들어라. 
-   				현재 여기에는 레포지토리로 설정되어 DAO 역할을 하는 클래스가 정의되어 있음. -->
-	
+   															현재 여기에는 레포지토리로 설정되어 DAO 역할을 하는 클래스가 정의되어 있음. -->
 	<context:component-scan base-package="com.human.service"/>
 </beans>

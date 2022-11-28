@@ -40,10 +40,10 @@
                MemberVO mvo = mList.get(i);
                out.print("<tr class='record'>");
                out.print("<td>"+mvo.getId()+"</td>");   
-               out.print("<td><a href='"+request.getContextPath()+"/memberOne?id="+mvo.getId()+"'>"+mvo.getName()+"</a></td>");
+               out.print("<td><a href='"+request.getContextPath()+"/memberOne?id="+mvo.getId()+"' target='_blank'>"+mvo.getName()+"</a></td>");
                out.print("<td>"+mvo.getTel()+"</td>");
                out.print("<td>"+mvo.getPoint()+"</td>");
-               out.print("<td><a href='"+request.getContextPath()+"/modyMember?id="+mvo.getId()+"'>M</a>"+"<a href='"+request.getContextPath()+"/delMember?id="+mvo.getId()+"'>/D</td>");
+               out.print("<td><input type='button' onclick='mody(`"+ mvo.getId() +"`,`"+mvo.getPass()+"`)' value='M'><input type='button' onclick='del(`"+ mvo.getId() +"`,`"+mvo.getPass()+"`)' value='D'>");
                out.print("</tr>");
             }
          }      
@@ -54,4 +54,25 @@
       </table>
    </div>
 </body>
+<script type="text/javascript">
+function mody(id,pass){
+	let chk = confirm("수정하시겠습니까??")
+	if(chk){
+		 let passChk= prompt("비밀번호를 입력하세요.");
+		if(passChk==pass){ 
+			window.location.href="/web01/modyMember?id="+id;
+		 } 
+	} 
+}
+
+function del(id,pass){
+	let chk = confirm("삭제하시겠습니까??")
+	if(chk){
+		 let passChk= prompt("비밀번호를 입력하세요.");
+		if(passChk==pass){ 
+			window.location.href="/web01/delMember?id="+id;
+		 } 
+	} 
+}
+</script>
 </html>
