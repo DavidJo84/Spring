@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.human.vo.BoardVO;
+import com.human.vo.PageVO;
 
 @Repository  //DAO 단임을 알려준다.
 public class BoardDAOImpl implements IF_boardDAO{
@@ -25,10 +26,16 @@ public class BoardDAOImpl implements IF_boardDAO{
 	}
 
 	@Override
-	public List<BoardVO> selectAll() throws Exception {
+	public List<BoardVO> selectAll(PageVO pvo) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(mapperQuery+".selectAll");
+		return sqlSession.selectList(mapperQuery+".selectAll",pvo);
 		
+	}
+
+	@Override
+	public int countBoard() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(mapperQuery+".countBoard");
 	}
 
 }

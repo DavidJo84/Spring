@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -14,6 +15,7 @@ import com.human.service.IF_boardService;
 import com.human.service.IF_memberService;
 import com.human.vo.BoardVO;
 import com.human.vo.MemberVO;
+import com.human.vo.PageVO;
 
 @Controller
 public class BbsController {
@@ -41,9 +43,13 @@ public class BbsController {
 	}
 	
 	@RequestMapping(value = "/bbsList", method = RequestMethod.GET)
-	public String bbsList(Locale locale, Model model) throws Exception {
-
-		List<BoardVO> bList = bsrv.selectAll();
+	public String bbsList(Locale locale, Model model, @ModelAttribute("pvo") PageVO pvo) throws Exception {
+		if(pvo.getPage()==null) {//클라이언트가 페이지 정보를 주지 않을때 기본값 1로 셋팅
+			pvo.setPage(1);
+		}
+		int tatalpageCnt = bsrv.countBoard();
+		pvo.setTotalCount(tatalpageCnt);
+		List<BoardVO> bList = bsrv.selectAll(pvo);
 		model.addAttribute("bList", bList);
 		return "bbs/bbsList";
 	}

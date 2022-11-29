@@ -20,6 +20,22 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	<!-- 인터셉터 빈 생성 -->
+	<beans:bean id="authenInterceptor" class="com.human.interceptor.AuthenticationInterceptor"></beans:bean>
+	<!-- 인터셉터 설정, 인터셉터에 적용될 턴크롤러를 매핑으로 설정 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/><!-- /시작되는 모든것 -->
+			<exclude-mapping path="/"/>
+			<exclude-mapping path="/login**"/>
+			<exclude-mapping path="/logout**"/>
+			<exclude-mapping path="/resources/**" />
+			<exclude-mapping path="/css/**" />
+			<exclude-mapping path="/img/**" />
+			<exclude-mapping path="/js/**" />
+			<beans:ref bean="authenInterceptor"/>
+		</interceptor>
+	</interceptors>
 	
 	<context:component-scan base-package="com.human.day03" />
 	

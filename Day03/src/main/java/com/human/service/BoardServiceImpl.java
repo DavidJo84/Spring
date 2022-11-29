@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.human.dao.IF_boardDAO;
 import com.human.vo.BoardVO;
+import com.human.vo.PageVO;
 
 @Service
 public class BoardServiceImpl implements IF_boardService {
@@ -20,9 +21,14 @@ public class BoardServiceImpl implements IF_boardService {
 		
 	}
 	@Override
-	public List<BoardVO> selectAll() throws Exception {
+	public List<BoardVO> selectAll(PageVO pvo) throws Exception {
 		// TODO Auto-generated method stub
-		return bdao.selectAll();
+		return bdao.selectAll(pvo);
+	}
+	@Override
+	public int countBoard() throws Exception {
+		// TODO Auto-generated method stub
+		return bdao.countBoard();
 	}
 
 }

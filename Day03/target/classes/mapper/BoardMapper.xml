@@ -9,7 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into board1 values (board1_cnt.nextval,#{name},#{email},#{title},#{content},#{pass},default,default)
 	</insert>
 	<!-- <update id=""></update> <select id=""></select> <delete id=""></delete> -->
-	<select id="selectAll" resultType="com.human.vo.BoardVO">
-		select * from board1
+	<select id="selectAll" parameterType="com.human.vo.PageVO" resultType="com.human.vo.BoardVO">
+		select * from(select rownum count, a.* from (select * from board1 order by num desc) a) 
+		where count between ${startNo} and ${endNo}
 	</select> 
+	<select id="countBoard" resultType="int">
+		select count(*) from board1
+	</select>
 </mapper>

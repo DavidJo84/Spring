@@ -20,7 +20,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-
+		System.out.println("/컨트롤러 처리");
 		return "home";
 	}
 	

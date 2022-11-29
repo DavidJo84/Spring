@@ -1,0 +1,73 @@
+body {
+   width: 1024px;
+   margin: 0px 0px 0px 0px; /* 위쪽, 오른쪽, 아래, 왼쪽 */
+   //background-color: green;
+   margin: 0;
+   margin-left: auto;
+   margin-right: auto;
+}
+#titleDV{
+   width:700px;
+   height:20px;   
+   float:left;
+}
+
+#logininfo{
+   width:324px;
+   height:20px;   
+   background-color: yellow;   
+   float:left;
+   
+}
+header{
+   width:1024px;
+   height:50px;
+   padding-top:15px;
+   padding-left:10px;
+   vertical-align: top;
+   Box-sizing:border-box;
+   background-color: green;   
+   float:left;
+   
+}
+nav{
+   Box-sizing:border-box;
+   border: 1px solid gray;
+   padding-left:10px;
+   Box-sizing:border-box;
+}
+a{
+   text-decoration:  none;
+}
+section{
+   width:800px;
+   background-color: blue;
+   height:400px;
+   Box-sizing:border-box;
+   float:left;
+}
+#loginDV{
+   width:224px;
+   background-color: gray;
+   Box-sizing:border-box;
+   height:100px;
+   float:left;
+   
+}
+
+#loginFrm{
+   text-align: center;
+   margin-top:10px;
+}
+#loginFrm td{
+   text-align: center;
+}
+
+#zzz{
+   width:224px;
+   background-color: yellow;
+   Box-sizing:border-box;
+   height:300px;
+   float:left;
+   
+}
