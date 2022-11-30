@@ -12,7 +12,7 @@ h1 {
 	color: green; /* 글 색상 */
 }
 
-table {
+#list {
 	width : 100%;
 	border-collapse: collapse;
 	font-size: 12px; /* 글꼴 크기 */
@@ -20,12 +20,12 @@ table {
 	width: 100%; /* 줄 간격 */
 }
 
-table td, th {
+#list td, th {
 	border: #d3d3d3 solid 1px; /* 경계선 색상 스타일 굵기 */
 	padding: 5px; /* 안쪽 여백 */
 }
 
-th {
+#list th {
 	background: yellowgreen; /* 배경색 */
 }
 

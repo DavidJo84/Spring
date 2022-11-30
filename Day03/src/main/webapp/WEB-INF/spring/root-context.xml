@@ -37,8 +37,9 @@
    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
       <constructor-arg index="0" ref="sqlSessionFactory" />
    </bean>
+   <!-- 객체를 생성할 패키지의 주소를 설정 -->
    <context:component-scan base-package="com.human.dao"/> <!-- 지정된 패키지의 클래스를 파일을 스캔하여 객체로 만들어라. 
    				현재 여기에는 레포지토리로 설정되어 DAO 역할을 하는 클래스가 정의되어 있음. -->
-	
 	<context:component-scan base-package="com.human.service"/>
+	
 </beans>

@@ -19,8 +19,9 @@
 <body>
    <div id="wrap" align="center">
       <h1>게시글 등록</h1>
-      <form name="frm" method="post" action="wrAction">
-         <table>
+      <form name="frm" method="post" action="wrAction" encType="multipart/form-data">
+      <!-- enc타입을 적어줘야만 첨부파일이 서버로 전송된다. -->
+         <table id="list">
             <tr>
                <th>작성자</th>
                <td><input type="text" name="name"> * 필수
@@ -45,6 +46,14 @@
             <tr>
                <th>내용</th>
                <td><textarea cols="70" rows="15" name="content"></textarea></td>
+            </tr>
+            <tr>
+               <th>첨부파일1</th>
+               <td><input type="file" name="file"></td>
+            </tr>
+            <tr>
+               <th>첨부파일2</th>
+               <td><input type="file" name="file"></td>
             </tr>
          </table>
          <br>

@@ -38,4 +38,22 @@ public class BoardDAOImpl implements IF_boardDAO{
 		return sqlSession.selectOne(mapperQuery+".countBoard");
 	}
 
+	@Override
+	public void insertAttach(String filename) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert(mapperQuery+".board_attach",filename);
+	}
+
+	@Override
+	public BoardVO selectOne(String num) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(mapperQuery+".selectOne", num);
+	}
+
+	@Override
+	public List<String> selectAttach(String num) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(mapperQuery+".selectAttach", num);
+	}
+
 }

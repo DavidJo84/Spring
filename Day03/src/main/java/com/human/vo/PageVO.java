@@ -40,7 +40,8 @@ public class PageVO {
 
 		   private void calcPage() {
 		      // DB쿼리에서 사용... 시작데이터번호 = (jsp클릭한 페이지번호-1)*페이지당 보여지는 개수
-		      startNo = (this.page - 1) * perPageNum;
+			  endNo = this.page * perPageNum;
+		      startNo = endNo-(perPageNum-1);
 
 
 		      // page변수는 현재 jsp에서 클릭한 페이지번호
@@ -53,12 +54,10 @@ public class PageVO {
 		      if (tempEnd * this.perPageNum > this.totalCount) {
 		         // 클릭한 page번호로 계산된 게시물수가 실제게시물개수 totalCount 클때
 		         this.endPage = (int) Math.ceil(this.totalCount / (double) this.perPageNum);
-		         this.endNo = startNo + this.perPageNum;
 
 		      } else {
 		         // 클릭한 page번호로 계산된 게시물수가 실제게시물개수 totalCount 작을때
 		         this.endPage = tempEnd;
-		         this.endNo = startNo + this.totalCount % 10;
 		      }
 		      this.prev = this.startPage != 1;// 시작페이지 1보다 크면 무조건 이전 페이지가 있음. true
 		      this.next = this.endPage * this.perPageNum < this.totalCount;

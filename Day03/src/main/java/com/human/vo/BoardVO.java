@@ -9,12 +9,17 @@ public class BoardVO {
 	public String email;
 	public String indate;
 	public int cnt;
-	
-	
+	private String[] files;	
 	
 	
 	public int getCnt() {
 		return cnt;
+	}
+	public String[] getFiles() {
+		return files;
+	}
+	public void setFiles(String[] files) {
+		this.files = files;
 	}
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
