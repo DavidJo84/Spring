@@ -29,4 +29,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="board_attach" parameterType="String">
 		insert into board_attach values((select max(num) from board1), #{filename},default)
 	</insert>
+	<delete id="delete">
+		delete from board1 where num = #{num}
+	</delete>
+	<update id="modyOne">
+		update board1 set email=#{email}, title=#{title}, content=#{content}, pass=#{pass} where num = #{num}
+	</update>
 </mapper>

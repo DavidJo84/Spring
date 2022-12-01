@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.human.dao.IF_patDAO">
+
+	<!-- <insert id="insertOne" parameterType="com.human.vo.PatVO">
+		insert into board1 values (board_cnt.nextval,#{name},#{email},#{title},#{content},#{pass},default,default)
+	</insert> -->
+	<!-- <update id=""></update> <select id=""></select> <delete id=""></delete> -->
+	<select id="selectAll" parameterType="com.human.vo.PageVO" resultType="com.human.vo.PatVO">
+		select * from(select rownum count, a.* from (select * from view_pat order by indate desc) a) 
+		where count between ${startNo} and ${endNo}
+	</select> 
+	<select id="countBoard" resultType="int">
+		select count(*) from view_pat
+	</select>
+	<select id="getNum" resultType="int">
+		select board_cnt.nextval from dual
+	</select>
+	<select id="selectOne" resultType="com.human.vo.PatVO">
+		select * from board1 where num = #{num} 
+	</select>
+	<select id="selectAttach" resultType="String">
+		select fname from board_attach where num = #{num} 
+	</select>
+	
+	<insert id="board_attach" parameterType="String">
+		insert into board_attach values((select max(num) from board1), #{filename},default)
+	</insert>
+	<delete id="delete">
+		delete from board1 where num = #{num}
+	</delete>
+	<update id="modyOne">
+		update board1 set email=#{email}, title=#{title}, content=#{content}, pass=#{pass} where num = #{num}
+	</update>
+</mapper>

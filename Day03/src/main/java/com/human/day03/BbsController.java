@@ -89,5 +89,31 @@ public class BbsController {
 		return "bbs/bbsView";
 	}
 	
+	@RequestMapping(value = "/delAction", method = RequestMethod.GET)
+	public String delAction(Locale locale, Model model, @ModelAttribute("num") String num) throws Exception {
+		
+		bsrv.delete(num);
+		return "redirect:/bbsList";
+	}
 	
+	@RequestMapping(value = "/modyForm", method = RequestMethod.GET)
+	public String modyForm(Locale locale, Model model, @ModelAttribute("num") String num) throws Exception {
+		
+		BoardVO bvo = bsrv.selectOne(num);
+		model.addAttribute("bvo", bvo);
+		return "bbs/modyForm";
+	}
+	
+	@RequestMapping(value = "/modyAction", method = RequestMethod.POST)
+	public String modyAction(Locale locale, Model model, BoardVO bvo, MultipartFile[] file) throws Exception {
+		//객체로 받을때는 파라미터의 이름과 객체 변수의 이름이 일치하고 getter, setter가 있어야 한다.->자동매핑
+		System.out.println(bvo.getName());
+		System.out.println(bvo.getPass());
+		//FileDataUtil의 fileupload메서드를 호출 매개변수로 file을 넘기면 지정한 폴더로 첨부파일 복사됨
+		String[] fileNames = fileDataUtil.fileUpload(file);
+		//넘겨받은 파일명을 BoardVO files에 저장
+		bvo.setFiles(fileNames);
+		bsrv.updateOne(bvo);
+		return "redirect:/boardView?num="+bvo.getNum();
+	}
 }
