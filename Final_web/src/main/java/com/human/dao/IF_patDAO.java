@@ -8,7 +8,8 @@ import com.human.vo.PatVO;
 import com.human.vo.SearchVO;
 
 public interface IF_patDAO {
-	public void insertOne(PatVO pvo) throws Exception;
+	public void insertPat(PatVO pvo) throws Exception;
+	public void insertRecord(PatVO pvo) throws Exception;
 	public List<PatVO> selectAll(SearchVO schvo) throws Exception;
 	public int countBoard(SearchVO schvo) throws Exception;
 	public void insertAttach(String filename) throws Exception;

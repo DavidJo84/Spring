@@ -22,18 +22,34 @@ public class PatController {
 	private IF_patService psrv;
 
 
-//	@RequestMapping(value = "/wrAction", method = RequestMethod.POST)
-//	public String wrAction(Locale locale, Model model, BoardVO bvo, MultipartFile[] file) throws Exception {
-//		//객체로 받을때는 파라미터의 이름과 객체 변수의 이름이 일치하고 getter, setter가 있어야 한다.->자동매핑
-//		System.out.println(bvo.getName());
-//		System.out.println(bvo.getPass());
-//		//FileDataUtil의 fileupload메서드를 호출 매개변수로 file을 넘기면 지정한 폴더로 첨부파일 복사됨
-//		String[] fileNames = fileDataUtil.fileUpload(file);
-//		//넘겨받은 파일명을 BoardVO files에 저장
-//		bvo.setFiles(fileNames);
-//		bsrv.insertOne(bvo);
-//		return "redirect:/bbsList";
-//	}
+	@RequestMapping(value = "/addPat", method = RequestMethod.POST)
+	public String addPat(Locale locale, Model model, PatVO pvo) throws Exception {
+		pvo.setBirthday(pvo.getYear()+pvo.getMonth()+pvo.getDay());
+		System.out.println(pvo.getAddress());
+		System.out.println(pvo.getAge());
+		System.out.println(pvo.getBirthday());
+		System.out.println(pvo.getDay());
+		System.out.println(pvo.getDepart());
+		System.out.println(pvo.getDepart2());
+		System.out.println(pvo.getDisease());
+		System.out.println(pvo.getEvening());
+		System.out.println(pvo.getIndate());
+		System.out.println(pvo.getMedicine());
+		System.out.println(pvo.getMemo());
+		System.out.println(pvo.getMonth());
+		System.out.println(pvo.getMor());
+		System.out.println(pvo.getName());
+		System.out.println(pvo.getNo());
+		System.out.println(pvo.getNoon());
+		System.out.println(pvo.getPt());
+		System.out.println(pvo.getRoom());
+		System.out.println(pvo.getSex());
+		System.out.println(pvo.getYear());
+		
+		psrv.insertPat(pvo);
+		psrv.insertRecord(pvo);
+		return "redirect:/";
+	}
 
 //	@RequestMapping(value = "/wrForm", method = RequestMethod.GET)
 //	public String wrForm(Locale locale, Model model) {

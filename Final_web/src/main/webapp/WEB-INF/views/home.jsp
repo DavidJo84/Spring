@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ page import="java.net.URLDecoder"%>
+<%@ page import="java.net.URLDecoder"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String url = "";
-	if(request.getQueryString()!=null){
+	if (request.getQueryString() != null) {
 		String temp = URLDecoder.decode(request.getQueryString(), "UTF-8");
 		int a = temp.indexOf("page");
-		if(a != -1){
-		url = temp.substring(0,a-1);
-		}else{
+		if (a != -1) {
+			url = temp.substring(0, a - 1);
+		} else {
 			url = temp;
 		}
 	}
@@ -255,15 +255,14 @@ td, th {
 								</select></td>
 								<td style="width: 3vw;"></td>
 								<td>입/퇴원일<select name="seldate">
-										<option >--선택--</option>
+										<option>--선택--</option>
 										<option value="indate">입원일</option>
 										<option value="outdate">퇴원일</option>
 								</select></td>
 								<td>시작일 <input type="date" name="startDate"></td>
 								<td>종료일 <input type="date" name="endDate"></td>
 								<td class="btn-group me-2">
-									<button type="submit"
-										class="btn btn-sm btn-outline-secondary"
+									<button type="submit" class="btn btn-sm btn-outline-secondary"
 										style="font-size: 0.8em;">검색</button>
 								</td>
 							</tr>
@@ -320,13 +319,15 @@ td, th {
 									class="btn btn-sm btn-outline-secondary"
 									style="font-size: 0.8em;">퇴원처리</button>
 							</div> <c:if test="${pgvo.prev }">
-								<span><a href="<% out.print("?"+url); %>&page=${pgvo.startPage -1 }">[이전]</a></span>
+								<span><a
+									href="<% out.print("?"+url); %>&page=${pgvo.startPage -1 }">[이전]</a></span>
 							</c:if> <c:forEach begin="${pgvo.startPage }" end="${pgvo.endPage }"
 								var="idx">
 								<a href="<% out.print("?"+url); %>&page=${idx }"
 									<c:if test="${pgvo.page==idx }">style="color:blue;"</c:if>>${idx }</a>
 							</c:forEach> <c:if test="${pgvo.next }">
-								<span><a href="<% out.print("?"+url); %>&page=${pgvo.endPage +1 }">[다음]</a></span>
+								<span><a
+									href="<% out.print("?"+url); %>&page=${pgvo.endPage +1 }">[다음]</a></span>
 							</c:if>
 						</td>
 					</tr>
@@ -336,12 +337,180 @@ td, th {
 			</main>
 		</div>
 	</div>
+	<form action="addPat" method="post">
+		<div class="modal" id="staticBackdrop" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">환자등록</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-6">
+							<label for="inputEmail4" class="form-label">환자번호</label> <input
+								type="text" name="no" class="form-control" id="inputEmail4">
+						</div><br> 
+						
+						<div class="col-md-6">
+							<label for="inputPassword4" class="form-label">환자이름</label> <input
+								type="text" name = "name" class="form-control" id="inputPassword4">
+						</div><br> 
+						
+						<label for="year" class="form-label">생년월일</label>
+						<div>
+							<select id="year" name="year" class="form-select form-select-sm"
+								aria-label="Default select example"
+								style="float: left; width: 20%;">
+								<option selected>년</option>
+							</select> <select id="month" name="month" class="form-select form-select-sm"
+								aria-label="Default select example"
+								style="float: left; width: 17%;">
+								<option selected>월</option>
+							</select> <select id="day" name="day" class="form-select form-select-sm"
+								aria-label="Default select example" style="width: 17%;">
+								<option selected>일</option>
+							</select>
+						</div>
+						<br> <label class="form-label">성별</label><br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="sex"
+								id="flexRadioDefault1" value="M"> <label
+								class="form-check-label" for="flexRadioDefault1"> 남 </label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="sex"
+								id="flexRadioDefault2" value="W"> <label
+								class="form-check-label" for="flexRadioDefault2"> 여 </label>
+						</div>
+						<br> <br>
+
+						<div class="col-12">
+							<label for="inputAddress" class="form-label">주소</label> <input
+								type="text" name = "address" class="form-control" id="inputAddress">
+						</div>
+						<br> 
+						<div class="col-6">
+							<label for="room" class="form-label">입원호실</label> <input
+								type="text" class="form-control" name="room" id="room" placeholder="ex)402-1">
+						</div><br>
+						<label for="depart" class="form-label">진료과</label>
+						<div>
+							<select id="depart " name="depart"
+								class="form-select form-select-sm"
+								aria-label="Default select example"
+								style="float: left; width: 22%;">
+								<option value="한방1과">한방1과</option>
+								<option value="한방2과">한방2과</option>
+								<option value="양방과">양방과</option>
+							</select> <select name="depart2" class="form-select form-select-sm"
+								aria-label="Default select example" style="width: 17%;">
+								<option value="TA">TA</option>
+								<option value="의보">의보</option>
+							</select>
+						</div>
+						<br>
+
+
+						<div class="col-12">
+							<label for="disease" class="form-label">진단명</label> <input
+								type="text" class="form-control" name="disease" id="disease">
+						</div>
+						<br>
+
+						<div class="col-12">
+							<label for="pt" class="form-label">PT처치/특이사항</label> <input
+								type="text" class="form-control" name="pt" id="pt">
+						</div>
+						<br>
+						
+						<div class="col-6">
+							<label for="medicine" class="form-label">약처방</label> <input
+								type="text" class="form-control" name="medicine" id="medicine">
+						</div>
+						<br>
+
+						<div class="col-6">
+							<label for="memo" class="form-label">비고</label> <input
+								type="text" class="form-control" name="memo" id="memo">
+						</div>
+						<br>
+
+						<div class="col-md-6">
+							<label for="indate" class="form-label">입원일</label> <input
+								type="date" class="form-control" name= "indate" id="indate">
+						</div>
+						<br> <label for="mor" class="form-label">식사</label><br>
+						<div class="col-md-2 form-check-inline">
+							<input type="text" name="mor" class="form-control" id="mor"
+								placeholder="아침">
+						</div>
+						<div class="col-md-2 form-check-inline">
+							<input type="text" name="noon" class="form-control" id="noon"
+								placeholder="점심">
+						</div>
+						<div class="col-md-2 form-check-inline">
+							<input type="text" name="evening" class="form-control"
+								id="evening" placeholder="저녁">
+						</div>
+						<!-- <div class="col-12">
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </div> -->
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">저장</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
 
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
 	<script type="text/javascript">
-	
-		
+		$(document)
+				.ready(
+						function() {
+							var now = new Date();
+							var year = now.getFullYear();
+							var mon = (now.getMonth() + 1) > 9 ? ''
+									+ (now.getMonth() + 1) : '0'
+									+ (now.getMonth() + 1);
+							var day = (now.getDate()) > 9 ? ''
+									+ (now.getDate()) : '0' + (now.getDate());
+							//년도 selectbox만들기               
+							for (var i = 1900; i <= year; i++) {
+								$('#year').append(
+										'<option value="' + i + '">' + i
+												+ '년</option>');
+							}
+
+							// 월별 selectbox 만들기            
+							for (var i = 1; i <= 12; i++) {
+								var mm = i > 9 ? i : "0" + i;
+								$('#month').append(
+										'<option value="' + mm + '">' + mm
+												+ '월</option>');
+							}
+
+							// 일별 selectbox 만들기
+							for (var i = 1; i <= 31; i++) {
+								var dd = i > 9 ? i : "0" + i;
+								$('#day').append(
+										'<option value="' + dd + '">' + dd
+												+ '일</option>');
+							}
+							$("#year  > option[value=" + year + "]").attr(
+									"selected", "true");
+							$("#month  > option[value=" + mon + "]").attr(
+									"selected", "true");
+							$("#day  > option[value=" + day + "]").attr(
+									"selected", "true");
+
+						})
 
 		function showSearch() {
 			$('#searchBar').slideToggle();
@@ -429,8 +598,14 @@ td, th {
 				target.appendChild(opt);
 			}
 		}
-		
-		
+
+		function addPat() {
+			$(".modal").fadeIn();
+		}
+
+		$(".btn-close").click(function() {
+			$(".modal").fadeOut();
+		})
 	</script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"

@@ -6,10 +6,8 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.human.dao.IF_boardDAO;
 import com.human.dao.IF_patDAO;
 import com.human.vo.BoardVO;
-import com.human.vo.PageVO;
 import com.human.vo.PatVO;
 import com.human.vo.SearchVO;
 
@@ -17,21 +15,6 @@ import com.human.vo.SearchVO;
 public class PatServiceImpl implements IF_patService {
 	@Inject
 	private IF_patDAO pdao;
-
-	@Override
-	public void insertOne(PatVO pvo) throws Exception {
-		// TODO Auto-generated method stub
-		pdao.insertOne(pvo);
-
-		String[] fname = pvo.getFiles();
-		if (fname != null) {
-			for (int i = 0; i < fname.length; i++) {
-				if(fname[i]!= null) {
-					pdao.insertAttach(fname[i]);
-				}
-			}
-		}
-	}
 
 	@Override
 	public List<PatVO> selectAll(SearchVO schvo) throws Exception {
@@ -71,19 +54,23 @@ public class PatServiceImpl implements IF_patService {
 	public void updateOne(PatVO pvo) throws Exception {
 		// TODO Auto-generated method stub
 		pdao.modyOne(pvo);
-		String[] fname = pvo.getFiles();
-		if (fname != null) {
-			for (int i = 0; i < fname.length; i++) {
-				if(fname[i]!= null) {
-					pdao.insertAttach(fname[i]);
-				}
-			}
-		}
 	}
 
 	@Override
 	public void outDate(String[] num) throws Exception {
 		// TODO Auto-generated method stub
 		pdao.outDate(num);
+	}
+
+	@Override
+	public void insertPat(PatVO pvo) throws Exception {
+		// TODO Auto-generated method stub
+		pdao.insertPat(pvo);
+	}
+
+	@Override
+	public void insertRecord(PatVO pvo) throws Exception {
+		// TODO Auto-generated method stub
+		pdao.insertRecord(pvo);
 	}
 }

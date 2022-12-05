@@ -5,9 +5,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.human.dao.IF_patDAO">
 
-	<!-- <insert id="insertOne" parameterType="com.human.vo.PatVO">
-		insert into board1 values (board_cnt.nextval,#{name},#{email},#{title},#{content},#{pass},default,default)
-	</insert> -->
+	<insert id="insertRecord" parameterType="com.human.vo.PatVO">
+		insert into record values (#{no},#{depart},#{disease},#{indate},default,#{memo},#{room},#{depart2},#{pt},#{medicine},#{mor},#{noon},#{evening})
+	</insert>
+	<insert id="insertPat" parameterType="com.human.vo.PatVO">
+		insert into patient values (#{no},#{name},${age},#{sex},#{birthday},#{address})
+	</insert>
 	<!-- <update id=""></update> <select id=""></select> <delete id=""></delete> -->
 	<sql id="search">
 		<if test = '(depart != null and !depart.equals("전체과"))'>

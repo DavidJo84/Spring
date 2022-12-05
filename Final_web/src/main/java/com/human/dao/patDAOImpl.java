@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.human.vo.BoardVO;
-import com.human.vo.PageVO;
 import com.human.vo.PatVO;
 import com.human.vo.SearchVO;
 
@@ -22,9 +21,15 @@ public class patDAOImpl implements IF_patDAO {
 	private SqlSession sqlSession;// sqlsession객체는 스프링 컨테이너에서 주입 받는다.
 
 	@Override
-	public void insertOne(PatVO pvo) throws Exception {
+	public void insertPat(PatVO pvo) throws Exception {
 		// TODO Auto-generated method stub
-		sqlSession.insert(mapperQuery + ".insertOne", pvo);
+		sqlSession.insert(mapperQuery + ".insertPat", pvo);
+	}
+	
+	@Override
+	public void insertRecord(PatVO pvo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert(mapperQuery + ".insertRecord", pvo);
 	}
 
 	@Override

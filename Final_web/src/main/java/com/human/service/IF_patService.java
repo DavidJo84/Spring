@@ -8,7 +8,8 @@ import com.human.vo.PatVO;
 import com.human.vo.SearchVO;
 
 public interface IF_patService {
-	public void insertOne(PatVO pvo) throws Exception;
+	public void insertPat(PatVO pvo) throws Exception;
+	public void insertRecord(PatVO pvo) throws Exception;
 	public List<PatVO> selectAll(SearchVO schvo) throws Exception;
 	public int countBoard(SearchVO schvo) throws Exception;
 	public BoardVO selectOne(String no) throws Exception;

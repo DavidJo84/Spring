@@ -6,18 +6,89 @@ public class PatVO {
 	private String name = null;
 	private String sex = null;
 	private int age = 0;
+	private String year = null;
+	private String month = null;
+	private String day = null;
 	private String depart = null;
+	private String depart2 = null;
 	private String disease = null;
 	private String memo = null;
+	private String pt = null;
+	private String medicine = null;
+	private String mor = null;
+	private String noon = null;
+	private String evening = null;
 	private String indate = null;
 	private String outdate = null;
-	private String[] files;	
+	private String birthday = null;
+	private String address = null;
 	
-	public String[] getFiles() {
-		return files;
+	
+	public String getAddress() {
+		return address;
 	}
-	public void setFiles(String[] files) {
-		this.files = files;
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
+	public String getDepart2() {
+		return depart2;
+	}
+	public void setDepart2(String depart2) {
+		this.depart2 = depart2;
+	}
+	public String getPt() {
+		return pt;
+	}
+	public void setPt(String pt) {
+		this.pt = pt;
+	}
+	public String getMedicine() {
+		return medicine;
+	}
+	public void setMedicine(String medicine) {
+		this.medicine = medicine;
+	}
+	public String getMor() {
+		return mor;
+	}
+	public void setMor(String mor) {
+		this.mor = mor;
+	}
+	public String getNoon() {
+		return noon;
+	}
+	public void setNoon(String noon) {
+		this.noon = noon;
+	}
+	public String getEvening() {
+		return evening;
+	}
+	public void setEvening(String evening) {
+		this.evening = evening;
+	}
+	public String getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
 	}
 	public String getRoom() {
 		return room;
