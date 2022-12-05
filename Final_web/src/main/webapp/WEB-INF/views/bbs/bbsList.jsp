@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ko">
@@ -14,7 +13,6 @@
 <title>찬누리한방병원 관리시스템</title>
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
-
 <link
 	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -77,7 +75,14 @@
 }
 
 td, th {
-	font-size: 0.8em;
+	font-size: 0.9em;
+}
+
+#pageNo a {
+	text-decoration: none;
+	color: black;
+	font-size: 1.2em;
+	margin-right: 4px;
 }
 </style>
 
@@ -92,14 +97,6 @@ td, th {
 	<%@ page import="com.human.vo.*"%>
 	<%
 		ArrayList<BoardVO> bList = (ArrayList) request.getAttribute("bList");
-		//out.print(al.size() +" / 가나다라마바사 <br>" );
-
-		//for(int i=0; i < al.size(); i++){
-		//      BoardVO bvo = al.get(i);
-		//   out.print(bvo.getNum());
-		//      out.print(bvo.getName());
-		//   out.print("<hr>");      
-		//   }
 	%>
 	<header
 		class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -126,12 +123,12 @@ td, th {
 				class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
 			<div class="position-sticky pt-3 sidebar-sticky">
 				<ul class="nav flex-column">
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/final_web"> <span
-							data-feather="home" class="align-text-bottom"></span> 환자현황
+					<li class="nav-item"><a class="nav-link" aria-current="page"
+						href="/final_web"> <span data-feather="home"
+							class="align-text-bottom"></span> 환자현황
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="bbsList"> <span
-							data-feather="file" class="align-text-bottom"></span> 공지사항
+					<li class="nav-item"><a class="nav-link active" href="bbsList">
+							<span data-feather="file" class="align-text-bottom"></span> 공지사항
 					</a></li>
 					<!--<li class="nav-item">
             <a class="nav-link" href="#">
@@ -197,7 +194,8 @@ td, th {
 				<h1 class="h2">공지사항</h1>
 				<div class="btn-toolbar mb-2 mb-md-0">
 					<div class="btn-group me-2">
-						<button type="button" onclick="href='wrForm'" class="btn btn-sm btn-outline-secondary">게시글 등록</button>
+						<button type="button" onclick="href='wrForm'"
+							class="btn btn-sm btn-outline-secondary" style="font-size: 0.8em;">글쓰기</button>
 						<!-- <button type="button" class="btn btn-sm btn-outline-secondary">엑셀저장</button> -->
 					</div>
 					<!-- <button type="button"
@@ -220,64 +218,114 @@ td, th {
 			<!-- <h2 class="border-bottom">공지 사항</h2> -->
 			<div class="table-responsive" style="width: 75vw;">
 				<table class="table table-striped table-sm">
-				<tr>
-					<td colspan="5" style="border: white; text-align: right"><a
-						href="wrForm"></a></td>
-				</tr>
 					<thead>
 						<tr>
-							<th scope="col">번호</th>
-							<th scope="col">제목</th>
+							<th scope="col"><input type="checkbox" id="allChk"
+								onchange="allChk1()"></th>
+							<th scope="col"></th>
+							<th scope="col" style="text-align: center;">제목</th>
 							<th scope="col">작성자</th>
 							<th scope="col">작성일</th>
 							<th scope="col">조회</th>
-							<th scope="col">수정/삭제</th>
 						</tr>
 					</thead>
-					<tbody>
-<%
-					if (bList.size() == 0) {
-						out.print("<tr class='record'>");
-						out.print("<td colspan=5>등록된 글이 없습니다.</td>");
-						out.print("</tr>");
-					} else {
-						for (int i = 0; i < bList.size(); i++) {
-							BoardVO bvo = bList.get(i);
-							out.print("<tr class='record'>");
-							out.print("<td>" + bvo.getNum() + "</td>");
-							out.print("<td><a href='" + request.getContextPath() + "/boardView?num=" + bvo.getNum() + "'>"
-									+ bvo.getTitle() + "</td>");
-							out.print("<td>" + bvo.getName() + "</td>");
-							out.print("<td>" + bvo.getIndate() + "</td>");
-							out.print("<td>" + bvo.getCnt() + "</td>");
-							out.print("<td><a href='modyForm?num=" + bvo.getNum() + "'>M");
-							out.print("<a href='delAction?num=" + bvo.getNum() + "'>/D</td>");
-							out.print("</tr>");
-						}
-					}
-				%>
+					<form id="delAll" action="bbsDelAll" method="get">
+					<tbody id="board_list">
+						<%
+							if (bList.size() == 0) {
+								out.print("<tr class='record'>");
+								out.print("<td colspan=6>등록된 글이 없습니다.</td>");
+								out.print("</tr>");
+							} else {
+								for (int i = 0; i < bList.size(); i++) {
+									BoardVO bvo = bList.get(i);
+									out.print("<tr class='record'>");
+									out.print("<td><input type='checkbox' name='delNum' value='" + bvo.getNum() + "'></td>");
+									out.print("<td>" + bvo.getNum() + "</td>");
+									out.print("<td><a class='nav-link hoverEv' href='" + request.getContextPath() + "/boardView?num="
+											+ bvo.getNum() + "'>" + bvo.getTitle() + "</td>");
+									out.print("<td>" + bvo.getName() + "</td>");
+									out.print("<td>" + bvo.getIndate().substring(2, 10) + "</td>");
+									out.print("<td>" + bvo.getCnt() + "</td>");
+									out.print("</tr>");
+								}
+							}
+						%>
 
 					</tbody>
+					</form>
 				</table>
+
 				<table class="table table-sm">
-				<tr style="text-align: center;">
-					<td id="pageNo"><c:if test="${pvo.prev }">
-							<span><a href="bbsList?page=${pvo.startPage -1 }">[이전]</a></span>
-						</c:if> <c:forEach begin="${pvo.startPage }" end="${pvo.endPage }"
-							var="idx">
-							<a href="bbsList?page=${idx }"
-								<c:if test="${pvo.page==idx }">style="color:yellowgreen;"</c:if>>${idx }</a>
-						</c:forEach> <c:if test="${pvo.next }">
-							<span><a href="bbsList?page=${pvo.endPage +1 }">[다음]</a></span>
-						</c:if></td>
-				</tr>
-			</table>
+
+					<tr style="text-align: center;">
+
+
+
+						<td id="pageNo">
+							<div class="btn-group me-2" style="float: left;">
+								<button type="button" onclick="delRow()"
+									class="btn btn-sm btn-outline-secondary"
+									style="font-size: 0.8em;">선택삭제</button>
+								<!-- <button type="button" class="btn btn-sm btn-outline-secondary">엑셀저장</button> -->
+							</div> <c:if test="${pvo.prev }">
+								<span><a href="bbsList?page=${pvo.startPage -1 }">[이전]</a></span>
+							</c:if> <c:forEach begin="${pvo.startPage }" end="${pvo.endPage }"
+								var="idx">
+								<a href="bbsList?page=${idx }"
+									<c:if test="${pvo.page==idx }">style="color:blue;"</c:if>>${idx }</a>
+							</c:forEach> <c:if test="${pvo.next }">
+								<span><a href="bbsList?page=${pvo.endPage +1 }">[다음]</a></span>
+							</c:if>
+						</td>
+					</tr>
+				</table>
 
 			</div>
 			</main>
 		</div>
 	</div>
-
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script>
+		$('.hoverEv').hover(function(){
+			$(this).css("text-decoration","underline");
+		},function(){
+			$(this).css("text-decoration","none");
+		})
+		
+		allChk1 = () => {
+    		const table = document.getElementById('board_list');
+   			for (let i = 0; i < table.rows.length; i++) {
+     			if(document.getElementById('allChk').checked){
+       			table.rows[i].cells[0].childNodes[0].checked = true;
+     			}else{
+       		 	table.rows[i].cells[0].childNodes[0].checked = false;
+      			}
+    		}
+    
+  		}
+		
+		delRow = () => {
+			let flag= false;
+			const table = document.getElementById('board_list');
+			for (let i = 0; i < table.rows.length; i++) {
+			      var chkBox = table.rows[i].cells[0].childNodes[0].checked;
+			      if (chkBox) {
+			        flag=true;
+			      }
+			    }
+			if(flag){
+				let delChk = confirm("선택한 글을 삭제하시겠습니까?");
+				
+			    if(delChk){
+			    	$("#delAll").submit();
+			    }
+			}else{
+				alert("선택한 글이 없습니다.")
+			}
+		    
+		}
+	</script>
 
 	<!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
  -->
@@ -285,12 +333,12 @@ td, th {
 		src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
 		integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
 		crossorigin="anonymous"></script>
-	<script
+	<!-- <script
 		src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
 		integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
-		crossorigin="anonymous"></script>
-	<%-- <script
-		src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script> --%>
+		crossorigin="anonymous"></script> -->
+	<script
+		src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
 </body>
 
 </html>

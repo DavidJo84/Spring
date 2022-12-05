@@ -15,6 +15,7 @@ import com.human.service.IF_memberService;
 import com.human.service.IF_patService;
 import com.human.vo.PageVO;
 import com.human.vo.PatVO;
+import com.human.vo.SearchVO;
 
 /**
  * Handles requests for the application home page.
@@ -33,14 +34,18 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String bbsList(Locale locale, Model model, @ModelAttribute("pgvo") PageVO pgvo) throws Exception {
+		SearchVO schvo = new SearchVO();
 		if(pgvo.getPage()==null) {//클라이언트가 페이지 정보를 주지 않을때 기본값 1로 셋팅
 			pgvo.setPage(1);
 		}
-		int tatalpageCnt = psrv.countBoard();
+		int tatalpageCnt = psrv.countBoard(schvo);
 		pgvo.setTotalCount(tatalpageCnt);
-		List<PatVO> pList = psrv.selectAll(pgvo);
+		schvo.setStartNo(pgvo.getStartNo());
+		schvo.setEndNo(pgvo.getEndNo());
+		List<PatVO> pList = psrv.selectAll(schvo);
 		model.addAttribute("pList", pList);
 		model.addAttribute("pgvo", pgvo);
+		model.addAttribute("schvo", schvo);
 		return "home";
 	}
 	

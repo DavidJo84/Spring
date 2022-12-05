@@ -49,6 +49,10 @@
       },
       legend: {
         display: false
+      },
+      title: {
+    	  display: true,
+    	  text: '주간 입원현황'
       }
     }
   })
@@ -56,7 +60,7 @@
   const ctx1 = document.getElementById('myChart2');
   // eslint-disable-next-line no-unused-vars
   const myChart2 = new Chart(ctx1, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
       labels: [
         '한방1과',
@@ -79,15 +83,27 @@
       }]
     },
     options: {
-      scales: {
+    	cutoutPercentage: 75,
+    	responsive: false,
+      /*scales: {
         yAxes: [{
           ticks: {
             beginAtZero: false,
           }
         }]
-      },
+      },*/
       legend: {
-        display: true
+        display: true,
+        position: 'bottom',
+        labels: {
+        	fontSize: 10,
+        	boxWidth: 20
+        },
+        
+      },
+      title: {
+    	  display: true,
+    	  text: '재원 환자비율'
       }
     }
   })

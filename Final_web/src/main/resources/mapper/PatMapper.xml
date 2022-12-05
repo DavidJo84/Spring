@@ -9,12 +9,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into board1 values (board_cnt.nextval,#{name},#{email},#{title},#{content},#{pass},default,default)
 	</insert> -->
 	<!-- <update id=""></update> <select id=""></select> <delete id=""></delete> -->
-	<select id="selectAll" parameterType="com.human.vo.PageVO" resultType="com.human.vo.PatVO">
-		select * from(select rownum count, a.* from (select * from view_pat order by indate desc) a) 
+	<sql id="search">
+		<if test = '(depart != null and !depart.equals("전체과"))'>
+			and depart = #{depart}
+		</if>
+		<if test = '(outdate !=null and outdate.equals("inPat"))'>
+			and outdate is null
+		</if>
+		<if test = '(outdate !=null and outdate.equals("outPat"))'>
+			and outdate is not null
+		</if>
+		<if test = '(startDate!=null and !startDate.equals("") and seldate!=null and !seldate.equals("--선택--"))'>
+			and ${seldate} >= #{startDate} 
+		</if>
+		<if test = '(endDate!=null and!endDate.equals("") and seldate!=null and !seldate.equals("--선택--"))'>
+			<![CDATA[and ${seldate} <= #{endDate} ]]> 
+		</if>
+	</sql>
+	
+	<select id="selectAll" resultType="com.human.vo.PatVO">
+		select * from(select rownum count, a.* from (select * from view_pat where 1=1
+		<include refid="search"></include>
+		order by indate desc) a) 
 		where count between ${startNo} and ${endNo}
 	</select> 
 	<select id="countBoard" resultType="int">
-		select count(*) from view_pat
+		select count(*) from view_pat where 1=1
+		<include refid="search"></include>
 	</select>
 	<select id="getNum" resultType="int">
 		select board_cnt.nextval from dual
@@ -30,9 +51,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into board_attach values((select max(num) from board1), #{filename},default)
 	</insert>
 	<delete id="delete">
-		delete from board1 where num = #{num}
+		delete from record where no = #{no}
 	</delete>
 	<update id="modyOne">
 		update board1 set email=#{email}, title=#{title}, content=#{content}, pass=#{pass} where num = #{num}
+	</update>
+	<update id="outDate">
+		update record set outdate = current_date where no = #{num}
 	</update>
 </mapper>

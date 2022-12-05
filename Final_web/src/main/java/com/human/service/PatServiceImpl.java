@@ -11,6 +11,7 @@ import com.human.dao.IF_patDAO;
 import com.human.vo.BoardVO;
 import com.human.vo.PageVO;
 import com.human.vo.PatVO;
+import com.human.vo.SearchVO;
 
 @Service
 public class PatServiceImpl implements IF_patService {
@@ -33,15 +34,19 @@ public class PatServiceImpl implements IF_patService {
 	}
 
 	@Override
-	public List<PatVO> selectAll(PageVO pgvo) throws Exception {
+	public List<PatVO> selectAll(SearchVO schvo) throws Exception {
 		// TODO Auto-generated method stub
-		return pdao.selectAll(pgvo);
+			if(schvo.getDepart()!=null&&schvo.getDepart().equals("한방")){
+				String depart = schvo.getDepart()+schvo.getDepart2();
+				schvo.setDepart(depart);
+			}
+		return pdao.selectAll(schvo);
 	}
 
 	@Override
-	public int countBoard() throws Exception {
+	public int countBoard(SearchVO schvo) throws Exception {
 		// TODO Auto-generated method stub
-		return pdao.countBoard();
+		return pdao.countBoard(schvo);
 	}
 
 	@Override
@@ -57,7 +62,7 @@ public class PatServiceImpl implements IF_patService {
 	}
 
 	@Override
-	public void delete(String no) throws Exception {
+	public void delete(String[] no) throws Exception {
 		// TODO Auto-generated method stub
 		pdao.delete(no);
 	}
@@ -74,5 +79,11 @@ public class PatServiceImpl implements IF_patService {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void outDate(String[] num) throws Exception {
+		// TODO Auto-generated method stub
+		pdao.outDate(num);
 	}
 }

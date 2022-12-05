@@ -1,6 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ page import="java.net.URLDecoder"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+	String url = "";
+	if(request.getQueryString()!=null){
+		String temp = URLDecoder.decode(request.getQueryString(), "UTF-8");
+		int a = temp.indexOf("page");
+		if(a != -1){
+		url = temp.substring(0,a-1);
+		}else{
+			url = temp;
+		}
+	}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ko">
 
@@ -78,6 +92,13 @@
 td, th {
 	font-size: 0.8em;
 }
+
+#pageNo a {
+	text-decoration: none;
+	color: black;
+	font-size: 1.2em;
+	margin-right: 4px;
+}
 </style>
 
 
@@ -130,52 +151,41 @@ td, th {
 					<li class="nav-item"><a class="nav-link" href="#"> <span
 							data-feather="users" class="align-text-bottom"></span> 사용자관리
 					</a></li>
-					<!--<li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
-              Reports
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="layers" class="align-text-bottom"></span>
-              Integrations
-            </a>
-          </li>
-        </ul>
+					<li class="nav-item"><a class="nav-link" href="#"> <span
+							data-feather="bar-chart-2" class="align-text-bottom"></span>
+							Reports
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"> <span
+							data-feather="layers" class="align-text-bottom"></span>
+							Integrations
+					</a></li>
+				</ul>
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-          <span>Saved reports</span>
-          <a class="link-secondary" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle" class="align-text-bottom"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              Current month
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              Last quarter
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              Social engagement
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text" class="align-text-bottom"></span>
-              Year-end sale
-            </a>
-          </li>
-        </ul>-->
+				<h6
+					class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+					<span>Saved reports</span> <a class="link-secondary" href="#"
+						aria-label="Add a new report"> <span
+						data-feather="plus-circle" class="align-text-bottom"></span>
+					</a>
+				</h6>
+				<ul class="nav flex-column mb-2">
+					<li class="nav-item"><a class="nav-link" href="#"> <span
+							data-feather="file-text" class="align-text-bottom"></span>
+							Current month
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"> <span
+							data-feather="file-text" class="align-text-bottom"></span> Last
+							quarter
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"> <span
+							data-feather="file-text" class="align-text-bottom"></span> Social
+							engagement
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"> <span
+							data-feather="file-text" class="align-text-bottom"></span>
+							Year-end sale
+					</a></li>
+				</ul>
 			</div>
 			</nav>
 
@@ -204,69 +214,224 @@ td, th {
 				</div>
 			</div>
 			<div>
-				<div class="chart" style="width: 37vw; height: 30vh;">
+				<div class="chart"
+					style="width: 37vw; height: 30vh; border: rgba(0, 0, 0, .1) 1px solid;">
 					<canvas class="my-4 w-100" id="myChart"></canvas>
 				</div>
-				<div class="chart" style="width: 37vw; height: 30vh;">
+				<div class="chart"
+					style="width: 37vw; height: 30vh; border: rgba(0, 0, 0, .1) 1px solid;">
 					<canvas class="my-4 w-100" id="myChart2"></canvas>
 				</div>
 			</div>
-
-			<h2 class="border-bottom">환자 리스트</h2>
+			<div
+				class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 border-bottom">
+				<h2 style="margin-top: 30px;">환자 리스트</h2>
+				<div class="btn-group me-2">
+					<button type="button" onclick="addPat()"
+						class="btn btn-sm btn-outline-secondary"
+						style="font-size: 0.8em; margin-top: 30px;">환자등록</button>
+					<button type="button" onclick="showSearch()"
+						class="btn btn-sm btn-outline-secondary dropdown-toggle"
+						style="font-size: 0.8em; margin-top: 30px;">환자검색</button>
+				</div>
+			</div>
 			<div class="table-responsive" style="width: 75vw;">
+				<div id="searchBar"
+					style="display: none; padding-top: 12px; width: 75vw; height: 6vh; border: rgba(0, 0, 0, .1) 1px solid; background-color: rgba(0, 0, 0, .1);">
+					<form action="searchPat" method="get">
+						<table style="float: right;">
+							<tr>
+								<td><input type="radio" name="outdate" value="inPat">재원환자</td>
+								<td><input type="radio" name="outdate" value="outPat"
+									style="margin-left: 6px;">퇴원환자</td>
+								<td style="width: 3vw;"></td>
+								<td>진료과<select onchange="selDepart(this)" name="depart">
+										<option value="전체과">전체과</option>
+										<option value="한방">한방과</option>
+										<option value="양방과">양방과</option>
+								</select></td>
+								<td><select id="selDepart2" name="depart2">
+										<option>--선택--</option>
+								</select></td>
+								<td style="width: 3vw;"></td>
+								<td>입/퇴원일<select name="seldate">
+										<option >--선택--</option>
+										<option value="indate">입원일</option>
+										<option value="outdate">퇴원일</option>
+								</select></td>
+								<td>시작일 <input type="date" name="startDate"></td>
+								<td>종료일 <input type="date" name="endDate"></td>
+								<td class="btn-group me-2">
+									<button type="submit"
+										class="btn btn-sm btn-outline-secondary"
+										style="font-size: 0.8em;">검색</button>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
 				<table class="table table-striped table-sm">
 					<thead>
 						<tr>
+							<th scope="col"><input type="checkbox" id="allChk"
+								onchange="allChk1()"></th>
 							<th scope="col">환자번호</th>
 							<th scope="col">호실</th>
 							<th scope="col">이름</th>
 							<th scope="col">성별/나이</th>
 							<th scope="col">진료과</th>
-							<th scope="col">진단명</th>
+							<th scope="col" style="text-align: center;">진단명</th>
 							<th scope="col">비고</th>
 							<th scope="col">입원일</th>
 							<th scope="col">퇴원일</th>
 						</tr>
 					</thead>
-					<tbody>
+					<form id="delAll" action="patDelAll" method="get">
 
-						<c:forEach items="${pList }" var="pvo">
-							<tr>
-								<td>${pvo.no }</td>
-								<td>${pvo.room }</td>
-								<td>${pvo.name }</td>
-								<td>${pvo.sex }/${pvo.age }</td>
-								<td>${pvo.depart }</td>
-								<td>${pvo.disease }</td>
-								<td>${pvo.memo }</td>
-								<td>${pvo.indate.substring(2,10) }</td>
-								<td>${pvo.outdate.substring(2,10) }</td>
-							</tr>
+						<tbody id="pat_list">
 
-						</c:forEach>
-					</tbody>
+							<c:forEach items="${pList }" var="pvo">
+								<tr>
+									<td><input type='checkbox' name='num' value='${pvo.no }'></td>
+									<td style="text-align: center;">${pvo.no }</td>
+									<td>${pvo.room }</td>
+									<td><a class='nav-link hoverEv'
+										href="patView?no=${pvo.no }">${pvo.name }</td>
+									<td style="text-align: center;">${pvo.sex }/${pvo.age }</td>
+									<td>${pvo.depart }</td>
+									<td>${pvo.disease }</td>
+									<td>${pvo.memo }</td>
+									<td>${pvo.indate.substring(2,10) }</td>
+									<td>${pvo.outdate.substring(2,10) }</td>
+								</tr>
+
+							</c:forEach>
+						</tbody>
+					</form>
 				</table>
 				<table class="table table-sm">
 					<tr style="text-align: center;">
-						<td id="pageNo"><c:if test="${pgvo.prev }">
-								<span><a href="?page=${pgvo.startPage -1 }">[이전]</a></span>
+						<td id="pageNo">
+							<div class="btn-group me-2" style="float: left;">
+								<button type="button" onclick="delRow()"
+									class="btn btn-sm btn-outline-secondary"
+									style="font-size: 0.8em;">환자삭제</button>
+								<button type="button" onclick="outdateRow()"
+									class="btn btn-sm btn-outline-secondary"
+									style="font-size: 0.8em;">퇴원처리</button>
+							</div> <c:if test="${pgvo.prev }">
+								<span><a href="<% out.print("?"+url); %>&page=${pgvo.startPage -1 }">[이전]</a></span>
 							</c:if> <c:forEach begin="${pgvo.startPage }" end="${pgvo.endPage }"
 								var="idx">
-								<a href="?page=${idx }"
-									<c:if test="${pgvo.page==idx }">style="color:yellowgreen;"</c:if>>${idx }</a>
+								<a href="<% out.print("?"+url); %>&page=${idx }"
+									<c:if test="${pgvo.page==idx }">style="color:blue;"</c:if>>${idx }</a>
 							</c:forEach> <c:if test="${pgvo.next }">
-								<span><a href="?page=${pgvo.endPage +1 }">[다음]</a></span>
-							</c:if></td>
+								<span><a href="<% out.print("?"+url); %>&page=${pgvo.endPage +1 }">[다음]</a></span>
+							</c:if>
+						</td>
 					</tr>
 				</table>
+
 			</div>
 			</main>
 		</div>
 	</div>
 
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
+	<script type="text/javascript">
+	
+		
 
-	<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+		function showSearch() {
+			$('#searchBar').slideToggle();
 
+		}
+
+		$('.hoverEv').hover(function() {
+			$(this).css("text-decoration", "underline");
+		}, function() {
+			$(this).css("text-decoration", "none");
+		})
+
+		function allChk1() {
+			const table = document.getElementById('pat_list');
+			for (let i = 0; i < table.rows.length; i++) {
+				if (document.getElementById('allChk').checked) {
+					table.rows[i].cells[0].childNodes[0].checked = true;
+				} else {
+					table.rows[i].cells[0].childNodes[0].checked = false;
+				}
+			}
+
+		}
+
+		function delRow() {
+			let flag = false;
+			const table = document.getElementById('pat_list');
+			for (let i = 0; i < table.rows.length; i++) {
+				var chkBox = table.rows[i].cells[0].childNodes[0].checked;
+				if (chkBox) {
+					flag = true;
+				}
+			}
+			if (flag) {
+				let delChk = confirm("선택한 환자를 삭제하시겠습니까?");
+
+				if (delChk) {
+					$("#delAll").submit();
+				}
+			} else {
+				alert("선택한 환자가 없습니다.")
+			}
+		}
+
+		function outdateRow() {
+			let flag = false;
+			const table = document.getElementById('pat_list');
+			for (let i = 0; i < table.rows.length; i++) {
+				var chkBox = table.rows[i].cells[0].childNodes[0].checked;
+				if (chkBox) {
+					flag = true;
+				}
+			}
+			if (flag) {
+				let delChk = confirm("선택한 환자를 퇴원처리하시겠습니까?");
+
+				if (delChk) {
+					$("#delAll").attr("action", "outAllPat");
+					$("#delAll").submit();
+				}
+			} else {
+				alert("선택한 환자가 없습니다.")
+			}
+		}
+
+		function selDepart(e) {
+			var good_a = [ "--없음--" ];
+			var good_b = [ "1과", "2과" ];
+			var good_c = [ "--없음--" ];
+			var target = document.getElementById("selDepart2");
+
+			if (e.value == "전체과")
+				var d = good_a;
+			else if (e.value == "한방")
+				var d = good_b;
+			else if (e.value == "양방과")
+				var d = good_c;
+
+			target.options.length = 0;
+
+			for (x in d) {
+				var opt = document.createElement("option");
+				opt.value = d[x];
+				opt.innerHTML = d[x];
+				target.appendChild(opt);
+			}
+		}
+		
+		
+	</script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
 		integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"

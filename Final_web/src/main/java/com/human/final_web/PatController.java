@@ -1,35 +1,27 @@
-//package com.human.final_web;
-//
-//import java.util.List;
-//import java.util.Locale;
-//
-//import javax.inject.Inject;
-//
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.ModelAttribute;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import com.human.service.IF_boardService;
-//import com.human.service.IF_memberService;
-//import com.human.util.FileDataUtil;
-//import com.human.vo.BoardVO;
-//import com.human.vo.MemberVO;
-//import com.human.vo.PageVO;
-//
-////@Controller
-//public class PatController {
-//	@Inject
-//	private IF_boardService bsrv;
-//	
-//	@Inject
-//	private IF_memberService msrv;
-//	
-//	@Inject
-//	private FileDataUtil fileDataUtil;
-//	
+package com.human.final_web;
+
+import java.util.List;
+import java.util.Locale;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.human.service.IF_patService;
+import com.human.vo.PageVO;
+import com.human.vo.PatVO;
+import com.human.vo.SearchVO;
+
+@Controller
+public class PatController {
+	@Inject
+	private IF_patService psrv;
+
+
 //	@RequestMapping(value = "/wrAction", method = RequestMethod.POST)
 //	public String wrAction(Locale locale, Model model, BoardVO bvo, MultipartFile[] file) throws Exception {
 //		//객체로 받을때는 파라미터의 이름과 객체 변수의 이름이 일치하고 getter, setter가 있어야 한다.->자동매핑
@@ -42,33 +34,27 @@
 //		bsrv.insertOne(bvo);
 //		return "redirect:/bbsList";
 //	}
-//	
+
 //	@RequestMapping(value = "/wrForm", method = RequestMethod.GET)
 //	public String wrForm(Locale locale, Model model) {
 //
 //		
 //		return "bbs/wrForm";
 //	}
-//	
-//	@RequestMapping(value = "/bbsList", method = RequestMethod.GET)
-//	public String bbsList(Locale locale, Model model, @ModelAttribute("pvo") PageVO pvo) throws Exception {
-//		if(pvo.getPage()==null) {//클라이언트가 페이지 정보를 주지 않을때 기본값 1로 셋팅
-//			pvo.setPage(1);
-//		}
-//		int tatalpageCnt = bsrv.countBoard();
-//		pvo.setTotalCount(tatalpageCnt);
-//		List<BoardVO> bList = bsrv.selectAll(pvo);
-//		model.addAttribute("bList", bList);
-//		model.addAttribute("pvo", pvo);
-//		return "bbs/bbsList";
-//	}
-//	
+
+	@RequestMapping(value = "/outAllPat", method = RequestMethod.GET)
+	public String bbsList(Locale locale, Model model, String[] num) throws Exception {
+
+		psrv.outDate(num);
+		return "redirect:/";
+	}
+
 //	@RequestMapping(value = "/joinForm", method = RequestMethod.GET)
 //	public String joinForm(Locale locale, Model model) {
 //		
 //		return "bbs/joinForm";
 //	}
-//	
+
 //	@RequestMapping(value = "/joinAction", method = RequestMethod.POST)
 //	public String joinAction(Locale locale, Model model, MemberVO mvo) throws Exception {
 //		//객체로 받을때는 파라미터의 이름과 객체 변수의 이름이 일치하고 getter, setter가 있어야 한다.->자동매핑
@@ -78,7 +64,7 @@
 //		
 //		return "home";
 //	}
-//	
+
 //	@RequestMapping(value = "/boardView", method = RequestMethod.GET)
 //	public String boardView(Locale locale, Model model, @ModelAttribute("num") String num) throws Exception {
 //		
@@ -89,12 +75,30 @@
 //		return "bbs/bbsView";
 //	}
 //	
-//	@RequestMapping(value = "/delAction", method = RequestMethod.GET)
-//	public String delAction(Locale locale, Model model, @ModelAttribute("num") String num) throws Exception {
-//		
-//		bsrv.delete(num);
-//		return "redirect:/bbsList";
-//	}
+	@RequestMapping(value = "/patDelAll", method = RequestMethod.GET)
+	public String delAction(Locale locale, Model model, String[] num) throws Exception {
+
+		psrv.delete(num);
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/searchPat", method = RequestMethod.GET)
+	public String searchPat(Locale locale, Model model, SearchVO schvo,@ModelAttribute("pgvo") PageVO pgvo) throws Exception {
+		
+		if(pgvo.getPage()==null) {//클라이언트가 페이지 정보를 주지 않을때 기본값 1로 셋팅
+			pgvo.setPage(1);
+		}
+		System.out.println(pgvo.getPage());
+		int tatalpageCnt = psrv.countBoard(schvo);
+		pgvo.setTotalCount(tatalpageCnt);
+		schvo.setStartNo(pgvo.getStartNo());
+		schvo.setEndNo(pgvo.getEndNo());
+		List<PatVO> pList = psrv.selectAll(schvo);
+		model.addAttribute("pList", pList);
+		model.addAttribute("pgvo", pgvo);
+		
+		return "home";
+	}
 //	
 //	@RequestMapping(value = "/modyForm", method = RequestMethod.GET)
 //	public String modyForm(Locale locale, Model model, @ModelAttribute("num") String num) throws Exception {
@@ -116,4 +120,4 @@
 //		bsrv.updateOne(bvo);
 //		return "redirect:/boardView?num="+bvo.getNum();
 //	}
-//}
+}
