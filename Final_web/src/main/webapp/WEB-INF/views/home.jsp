@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.net.URLDecoder"%>
+<%@ page import="java.util.Date"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -14,6 +15,12 @@
 			url = temp;
 		}
 	}
+%>
+<%
+	Date date = new Date();
+	int year = date.getYear();
+	String thisYear = Integer.toString(year + 1900);
+	pageContext.setAttribute("thisYear", thisYear);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ko">
@@ -274,14 +281,18 @@ td, th {
 						<tr>
 							<th scope="col"><input type="checkbox" id="allChk"
 								onchange="allChk1()"></th>
-							<th scope="col">환자번호</th>
 							<th scope="col">호실</th>
 							<th scope="col">이름</th>
 							<th scope="col">성별/나이</th>
-							<th scope="col">진료과</th>
-							<th scope="col" style="text-align: center;">진단명</th>
-							<th scope="col">비고</th>
+							<th scope="col" style="text-align: center;">구분</th>
 							<th scope="col">입원일</th>
+							<th scope="col">비고</th>
+							<th scope="col" style="text-align: center;">진단명</th>
+							<th scope="col">약</th>
+							<th scope="col">PT처치/특이사항</th>
+							<th scope="col">아침</th>
+							<th scope="col">점심</th>
+							<th scope="col">저녁</th>
 							<th scope="col">퇴원일</th>
 						</tr>
 					</thead>
@@ -292,16 +303,37 @@ td, th {
 							<c:forEach items="${pList }" var="pvo">
 								<tr>
 									<td><input type='checkbox' name='num' value='${pvo.no }'></td>
-									<td style="text-align: center;">${pvo.no }</td>
 									<td>${pvo.room }</td>
 									<td><a class='nav-link hoverEv'
-										href="patView?no=${pvo.no }">${pvo.name }</td>
+										onclick="viewPat('${pvo.no }')">${pvo.name }</td>
 									<td style="text-align: center;">${pvo.sex }/${pvo.age }</td>
-									<td>${pvo.depart }</td>
-									<td>${pvo.disease }</td>
+									<td>${pvo.depart }/${pvo.depart2 }</td>
+									<c:choose>
+										<c:when
+											test="${pvo.indate.substring(0,4) eq pageScope.thisYear }">
+											<td>${pvo.indate.substring(5,10) }</td>
+										</c:when>
+										<c:otherwise>
+											<td>${pvo.indate.substring(2,10) }</td>
+										</c:otherwise>
+									</c:choose>
 									<td>${pvo.memo }</td>
-									<td>${pvo.indate.substring(2,10) }</td>
-									<td>${pvo.outdate.substring(2,10) }</td>
+									<td>${pvo.disease }</td>
+									<td>${pvo.medicine }</td>
+									<td>${pvo.pt }</td>
+									<td>${pvo.mor }</td>
+									<td>${pvo.noon }</td>
+									<td>${pvo.evening }</td>
+									<c:choose>
+										<c:when
+											test="${pvo.indate.substring(0,4) eq pageScope.thisYear }">
+											<td>${pvo.outdate.substring(5,10) }</td>
+										</c:when>
+										<c:otherwise>
+											<td>${pvo.outdate.substring(2,10) }</td>
+										</c:otherwise>
+									</c:choose>
+
 								</tr>
 
 							</c:forEach>
@@ -353,20 +385,21 @@ td, th {
 						<div class="col-md-6">
 							<label for="inputEmail4" class="form-label">환자번호</label> <input
 								type="text" name="no" class="form-control" id="inputEmail4">
-						</div><br> 
-						
+						</div>
+						<br>
+
 						<div class="col-md-6">
 							<label for="inputPassword4" class="form-label">환자이름</label> <input
-								type="text" name = "name" class="form-control" id="inputPassword4">
-						</div><br> 
-						
-						<label for="year" class="form-label">생년월일</label>
+								type="text" name="name" class="form-control" id="inputPassword4">
+						</div>
+						<br> <label for="year" class="form-label">생년월일</label>
 						<div>
 							<select id="year" name="year" class="form-select form-select-sm"
 								aria-label="Default select example"
 								style="float: left; width: 20%;">
 								<option selected>년</option>
-							</select> <select id="month" name="month" class="form-select form-select-sm"
+							</select> <select id="month" name="month"
+								class="form-select form-select-sm"
 								aria-label="Default select example"
 								style="float: left; width: 17%;">
 								<option selected>월</option>
@@ -390,14 +423,16 @@ td, th {
 
 						<div class="col-12">
 							<label for="inputAddress" class="form-label">주소</label> <input
-								type="text" name = "address" class="form-control" id="inputAddress">
+								type="text" name="address" class="form-control"
+								id="inputAddress">
 						</div>
-						<br> 
+						<br>
 						<div class="col-6">
 							<label for="room" class="form-label">입원호실</label> <input
-								type="text" class="form-control" name="room" id="room" placeholder="ex)402-1">
-						</div><br>
-						<label for="depart" class="form-label">진료과</label>
+								type="text" class="form-control" name="room" id="room"
+								placeholder="ex)402-1">
+						</div>
+						<br> <label for="depart" class="form-label">진료과</label>
 						<div>
 							<select id="depart " name="depart"
 								class="form-select form-select-sm"
@@ -426,7 +461,7 @@ td, th {
 								type="text" class="form-control" name="pt" id="pt">
 						</div>
 						<br>
-						
+
 						<div class="col-6">
 							<label for="medicine" class="form-label">약처방</label> <input
 								type="text" class="form-control" name="medicine" id="medicine">
@@ -441,7 +476,7 @@ td, th {
 
 						<div class="col-md-6">
 							<label for="indate" class="form-label">입원일</label> <input
-								type="date" class="form-control" name= "indate" id="indate">
+								type="date" class="form-control" name="indate" id="indate">
 						</div>
 						<br> <label for="mor" class="form-label">식사</label><br>
 						<div class="col-md-2 form-check-inline">
@@ -456,9 +491,253 @@ td, th {
 							<input type="text" name="evening" class="form-control"
 								id="evening" placeholder="저녁">
 						</div>
-						<!-- <div class="col-12">
-    <button type="submit" class="btn btn-primary">Sign in</button>
-  </div> -->
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">저장</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<form action="viewPat" method="post">
+		<div class="modal viewPat" id="staticBackdrop"
+			data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">환자정보</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-6">
+							<label for="no" class="form-label">환자번호</label> <input
+								type="text" readonly name="no" class="form-control"
+								id="no">
+						</div>
+						<br>
+
+						<div class="col-md-6">
+							<label for="name" class="form-label">환자이름</label> <input
+								type="text" readonly name="name" class="form-control"
+								id="name" >
+						</div>
+						<br> <label for="year" class="form-label">생년월일</label>
+						<div>
+							<input
+								type="text" readonly name="year" class="form-control"
+								id="birthday" >년
+						</div>
+						<br> <label class="form-label">성별</label>
+						<input
+								type="text" readonly name="sex" class="form-control-plaintext"
+								id="sex"">
+						<br> <br>
+
+						<div class="col-12">
+							<label for="address" class="form-label">주소</label> <input
+								type="text" readonly name="address"
+								class="form-control-plaintext" id="address">
+						</div>
+						<br>
+						<div class="col-6">
+							<label for="room" class="form-label">입원호실</label> <input
+								type="text" readonly class="form-control-plaintext" name="room"
+								id="room" >
+						</div>
+						<br> <label for="depart" class="form-label">진료과</label>
+						<div>
+							<input
+								type="text" readonly name="depart"
+								class="form-control-plaintext" id="depart" style="float: left; width: 22%;">
+								
+							<input
+								type="text" readonly name="depart2"
+								class="form-control-plaintext" id="depart2" style="width: 17%;">
+						</div>
+						<br>
+
+
+						<div class="col-12">
+							<label for="disease" class="form-label">진단명</label> <input
+								type="text" readonly class="form-control-plaintext"
+								name="disease" id="disease">
+						</div>
+						<br>
+
+						<div class="col-12">
+							<label for="pt" class="form-label">PT처치/특이사항</label> <input
+								type="text" readonly class="form-control" name="pt"
+								id="pt">
+						</div>
+						<br>
+
+						<div class="col-6">
+							<label for="medicine" class="form-label">약처방</label> <input
+								type="text" readonly class="form-control"
+								name="medicine" id="medicine">
+						</div>
+						<br>
+
+						<div class="col-6">
+							<label for="memo" class="form-label">비고</label> <input
+								type="text" readonly class="form-control" name="memo"
+								id="memo">
+						</div>
+						<br>
+
+						<div class="col-md-6">
+							<label for="indate" class="form-label">입원일</label> <input
+								type="text" readonly class="form-control"
+								name="indate" id="indate">
+						</div>
+						<br> <label for="mor" class="form-label">식사</label><br>
+						<div class="col-md-2 form-check-inline">
+							<input type="text" readonly name="mor"
+								class="form-control-plaintext" id="mor" placeholder="아침">
+						</div>
+						<div class="col-md-2 form-check-inline">
+							<input type="text" readonly name="noon"
+								class="form-control-plaintext" id="noon" placeholder="점심">
+						</div>
+						<div class="col-md-2 form-check-inline">
+							<input type="text" readonly name="evening"
+								class="form-control-plaintext" id="evening" placeholder="저녁">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">정보수정</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<form action="modyPatForm" method="get">
+		<div class="modal modyPatForm" id="staticBackdrop"
+			data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">환자등록</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-6">
+							<label for="inputEmail4" class="form-label">환자번호</label> <input
+								type="text" name="no" class="form-control" id="inputEmail4">
+						</div>
+						<br>
+
+						<div class="col-md-6">
+							<label for="inputPassword4" class="form-label">환자이름</label> <input
+								type="text" name="name" class="form-control" id="inputPassword4">
+						</div>
+						<br> <label for="year" class="form-label">생년월일</label>
+						<div>
+							<select id="year" name="year" class="form-select form-select-sm"
+								aria-label="Default select example"
+								style="float: left; width: 20%;">
+								<option selected>년</option>
+							</select> <select id="month" name="month"
+								class="form-select form-select-sm"
+								aria-label="Default select example"
+								style="float: left; width: 17%;">
+								<option selected>월</option>
+							</select> <select id="day" name="day" class="form-select form-select-sm"
+								aria-label="Default select example" style="width: 17%;">
+								<option selected>일</option>
+							</select>
+						</div>
+						<br> <label class="form-label">성별</label><br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="sex"
+								id="flexRadioDefault1" value="M"> <label
+								class="form-check-label" for="flexRadioDefault1"> 남 </label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="sex"
+								id="flexRadioDefault2" value="W"> <label
+								class="form-check-label" for="flexRadioDefault2"> 여 </label>
+						</div>
+						<br> <br>
+
+						<div class="col-12">
+							<label for="inputAddress" class="form-label">주소</label> <input
+								type="text" name="address" class="form-control"
+								id="inputAddress">
+						</div>
+						<br>
+						<div class="col-6">
+							<label for="room" class="form-label">입원호실</label> <input
+								type="text" class="form-control" name="room" id="room"
+								placeholder="ex)402-1">
+						</div>
+						<br> <label for="depart" class="form-label">진료과</label>
+						<div>
+							<select id="depart " name="depart"
+								class="form-select form-select-sm"
+								aria-label="Default select example"
+								style="float: left; width: 22%;">
+								<option value="한방1과">한방1과</option>
+								<option value="한방2과">한방2과</option>
+								<option value="양방과">양방과</option>
+							</select> <select name="depart2" class="form-select form-select-sm"
+								aria-label="Default select example" style="width: 17%;">
+								<option value="TA">TA</option>
+								<option value="의보">의보</option>
+							</select>
+						</div>
+						<br>
+
+
+						<div class="col-12">
+							<label for="disease" class="form-label">진단명</label> <input
+								type="text" class="form-control" name="disease" id="disease">
+						</div>
+						<br>
+
+						<div class="col-12">
+							<label for="pt" class="form-label">PT처치/특이사항</label> <input
+								type="text" class="form-control" name="pt" id="pt">
+						</div>
+						<br>
+
+						<div class="col-6">
+							<label for="medicine" class="form-label">약처방</label> <input
+								type="text" class="form-control" name="medicine" id="medicine">
+						</div>
+						<br>
+
+						<div class="col-6">
+							<label for="memo" class="form-label">비고</label> <input
+								type="text" class="form-control" name="memo" id="memo">
+						</div>
+						<br>
+
+						<div class="col-md-6">
+							<label for="indate" class="form-label">입원일</label> <input
+								type="date" class="form-control" name="indate" id="indate">
+						</div>
+						<br> <label for="mor" class="form-label">식사</label><br>
+						<div class="col-md-2 form-check-inline">
+							<input type="text" name="mor" class="form-control" id="mor"
+								placeholder="아침">
+						</div>
+						<div class="col-md-2 form-check-inline">
+							<input type="text" name="noon" class="form-control" id="noon"
+								placeholder="점심">
+						</div>
+						<div class="col-md-2 form-check-inline">
+							<input type="text" name="evening" class="form-control"
+								id="evening" placeholder="저녁">
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-primary">저장</button>
@@ -605,6 +884,57 @@ td, th {
 
 		$(".btn-close").click(function() {
 			$(".modal").fadeOut();
+		})
+		
+		function viewPat(e) {
+			console.log(e);
+			$(".viewPat").fadeIn();
+			         var no = e; // .id_input에 입력되는 값
+			         var data = {
+			            no : no
+			         } // '컨트롤에 넘길 데이터 이름' : '데이터(.id_input에 입력되는 값)'
+
+			         $.ajax({
+			            type : "post",
+			            url : "/final_web/viewPat",
+			            data : data,
+			            dataType : "json",
+			            success : function(result) {
+			            	 $('#no').val(result.no);
+			            	 $('#name').val(result.name);
+			            	 $('#birthday').val(result.birthday);
+			            	 $('#depart').val(result.depart);
+			            	 $('#depart2').val(result.depart2);
+			            	 $('#indate').val(result.indate);
+			            	 $('#disease').val(result.disease);
+			            	 $('#medicine').val(result.medicine);
+			            	 $('#memo').val(result.memo);
+			            	 $('#evening').val(result.evening);
+			            	 $('#mor').val(result.mor);
+			            	 $('#noon').val(result.noon);
+			            	 $('#pt').val(result.pt);
+			            	 $('#room').val(result.room);
+			            	 $('#sex').val(result.sex);
+			            	 $('#address').val(result.address);
+			            	 console.log(result);
+			              
+			            }
+			         }); // ajax 종료   
+
+			      
+		
+		}
+
+		$(".btn-close").click(function() {
+			$(".viewPat").fadeOut();
+		})
+		
+		function modyPatForm() {
+			$(".modyPatForm").fadeIn();
+		}
+
+		$(".btn-close").click(function() {
+			$(".modyPatForm").fadeOut();
 		})
 	</script>
 	<script

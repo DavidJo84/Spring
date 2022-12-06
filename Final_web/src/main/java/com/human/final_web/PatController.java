@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.service.IF_patService;
 import com.human.vo.PageVO;
@@ -80,16 +81,15 @@ public class PatController {
 //		
 //		return "home";
 //	}
-
-//	@RequestMapping(value = "/boardView", method = RequestMethod.GET)
-//	public String boardView(Locale locale, Model model, @ModelAttribute("num") String num) throws Exception {
-//		
-//		BoardVO bvo = bsrv.selectOne(num);
-//		List<String> fList = bsrv.selectAttach(num);
-//		model.addAttribute("bvo", bvo);
-//		model.addAttribute("fList", fList);
-//		return "bbs/bbsView";
-//	}
+	@ResponseBody
+	@RequestMapping(value = "/viewPat", method = RequestMethod.POST)
+	public PatVO viewPat(Locale locale, Model model, @ModelAttribute("no") String no) throws Exception {
+		System.out.println(no);
+		PatVO pvo = psrv.selectOne(no);
+		
+		
+		return pvo;
+	}
 //	
 	@RequestMapping(value = "/patDelAll", method = RequestMethod.GET)
 	public String delAction(Locale locale, Model model, String[] num) throws Exception {

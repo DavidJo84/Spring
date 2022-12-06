@@ -33,7 +33,7 @@ public class PatServiceImpl implements IF_patService {
 	}
 
 	@Override
-	public BoardVO selectOne(String no) throws Exception {
+	public PatVO selectOne(String no) throws Exception {
 		// TODO Auto-generated method stub
 		return pdao.selectOne(no);
 	}

@@ -52,7 +52,7 @@ public class patDAOImpl implements IF_patDAO {
 	}
 
 	@Override
-	public BoardVO selectOne(String no) throws Exception {
+	public PatVO selectOne(String no) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(mapperQuery + ".selectOne", no);
 	}

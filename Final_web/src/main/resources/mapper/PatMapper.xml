@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select board_cnt.nextval from dual
 	</select>
 	<select id="selectOne" resultType="com.human.vo.PatVO">
-		select * from board1 where num = #{num} 
+		select * from view_pat where no = #{no} 
 	</select>
 	<select id="selectAttach" resultType="String">
 		select fname from board_attach where num = #{num} 

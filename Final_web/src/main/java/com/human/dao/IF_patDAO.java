@@ -13,7 +13,7 @@ public interface IF_patDAO {
 	public List<PatVO> selectAll(SearchVO schvo) throws Exception;
 	public int countBoard(SearchVO schvo) throws Exception;
 	public void insertAttach(String filename) throws Exception;
-	public BoardVO selectOne(String no) throws Exception;
+	public PatVO selectOne(String no) throws Exception;
 	public List<String> selectAttach(String no) throws Exception;
 	public void delete(String[] no) throws Exception;
 	public void modyOne(PatVO pvo) throws Exception;
