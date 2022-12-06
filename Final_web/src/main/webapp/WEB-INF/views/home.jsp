@@ -515,97 +515,97 @@ td, th {
 					<div class="modal-body">
 						<div class="col-md-6">
 							<label for="no" class="form-label">환자번호</label> <input
-								type="text" readonly name="no" class="form-control"
-								id="no">
+								type="text" readonly name="no_v" class="form-control"
+								id="no_v">
 						</div>
 						<br>
 
 						<div class="col-md-6">
 							<label for="name" class="form-label">환자이름</label> <input
-								type="text" readonly name="name" class="form-control"
-								id="name" >
+								type="text" readonly name="name_v" class="form-control"
+								id="name_v" >
 						</div>
 						<br> <label for="year" class="form-label">생년월일</label>
 						<div>
 							<input
 								type="text" readonly name="year" class="form-control"
-								id="birthday" >년
+								id="birthday_v" >
 						</div>
 						<br> <label class="form-label">성별</label>
 						<input
-								type="text" readonly name="sex" class="form-control-plaintext"
-								id="sex"">
-						<br> <br>
+								type="text" readonly name="sex_v" class="form-control"
+								id="sex_v">
+						<br>
 
 						<div class="col-12">
 							<label for="address" class="form-label">주소</label> <input
-								type="text" readonly name="address"
-								class="form-control-plaintext" id="address">
+								type="text" readonly name="address_v"
+								class="form-control" id="address_v">
 						</div>
 						<br>
 						<div class="col-6">
 							<label for="room" class="form-label">입원호실</label> <input
-								type="text" readonly class="form-control-plaintext" name="room"
-								id="room" >
+								type="text" readonly class="form-control" name="room_v"
+								id="room_v">
 						</div>
 						<br> <label for="depart" class="form-label">진료과</label>
 						<div>
 							<input
-								type="text" readonly name="depart"
-								class="form-control-plaintext" id="depart" style="float: left; width: 22%;">
+								type="text" readonly name="depart_v"
+								class="form-control" id="depart_v" style="float: left; width: 22%;">
 								
 							<input
-								type="text" readonly name="depart2"
-								class="form-control-plaintext" id="depart2" style="width: 17%;">
+								type="text" readonly name="depart2_v"
+								class="form-control" id="depart2_v" style="width: 17%;">
 						</div>
 						<br>
 
 
 						<div class="col-12">
 							<label for="disease" class="form-label">진단명</label> <input
-								type="text" readonly class="form-control-plaintext"
-								name="disease" id="disease">
+								type="text" readonly class="form-control"
+								name="disease_v" id="disease_v">
 						</div>
 						<br>
 
 						<div class="col-12">
 							<label for="pt" class="form-label">PT처치/특이사항</label> <input
-								type="text" readonly class="form-control" name="pt"
-								id="pt">
+								type="text" readonly class="form-control" name="pt_v"
+								id="pt_v">
 						</div>
 						<br>
 
 						<div class="col-6">
 							<label for="medicine" class="form-label">약처방</label> <input
 								type="text" readonly class="form-control"
-								name="medicine" id="medicine">
+								name="medicine_v" id="medicine_v">
 						</div>
 						<br>
 
 						<div class="col-6">
 							<label for="memo" class="form-label">비고</label> <input
-								type="text" readonly class="form-control" name="memo"
-								id="memo">
+								type="text" readonly class="form-control" name="memo_v"
+								id="memo_v">
 						</div>
 						<br>
 
 						<div class="col-md-6">
 							<label for="indate" class="form-label">입원일</label> <input
 								type="text" readonly class="form-control"
-								name="indate" id="indate">
+								name="indate_v" id="indate_v">
 						</div>
 						<br> <label for="mor" class="form-label">식사</label><br>
 						<div class="col-md-2 form-check-inline">
-							<input type="text" readonly name="mor"
-								class="form-control-plaintext" id="mor" placeholder="아침">
+							<input type="text" readonly name="mor_v"
+								class="form-control" id="mor_v" placeholder="아침">
 						</div>
 						<div class="col-md-2 form-check-inline">
-							<input type="text" readonly name="noon"
-								class="form-control-plaintext" id="noon" placeholder="점심">
+							<input type="text" readonly name="noon_v"
+								class="form-control" id="noon_v" placeholder="점심">
 						</div>
 						<div class="col-md-2 form-check-inline">
-							<input type="text" readonly name="evening"
-								class="form-control-plaintext" id="evening" placeholder="저녁">
+							<input type="text" readonly name="evening_v"
+								class="form-control" id="evening_v" placeholder="저녁">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -900,22 +900,22 @@ td, th {
 			            data : data,
 			            dataType : "json",
 			            success : function(result) {
-			            	 $('#no').val(result.no);
-			            	 $('#name').val(result.name);
-			            	 $('#birthday').val(result.birthday);
-			            	 $('#depart').val(result.depart);
-			            	 $('#depart2').val(result.depart2);
-			            	 $('#indate').val(result.indate);
-			            	 $('#disease').val(result.disease);
-			            	 $('#medicine').val(result.medicine);
-			            	 $('#memo').val(result.memo);
-			            	 $('#evening').val(result.evening);
-			            	 $('#mor').val(result.mor);
-			            	 $('#noon').val(result.noon);
-			            	 $('#pt').val(result.pt);
-			            	 $('#room').val(result.room);
-			            	 $('#sex').val(result.sex);
-			            	 $('#address').val(result.address);
+			            	 $('#no_v').val(result.no);
+			            	 $('#name_v').val(result.name);
+			            	 $('#birthday_v').val(result.birthday);
+			            	 $('#depart_v').val(result.depart);
+			            	 $('#depart2_v').val(result.depart2);
+			            	 $('#indate_v').val(result.indate);
+			            	 $('#disease_v').val(result.disease);
+			            	 $('#medicine_v').val(result.medicine);
+			            	 $('#memo_v').val(result.memo);
+			            	 $('#evening_v').val(result.evening);
+			            	 $('#mor_v').val(result.mor);
+			            	 $('#noon_v').val(result.noon);
+			            	 $('#pt_v').val(result.pt);
+			            	 $('#room_v').val(result.room);
+			            	 $('#sex_v').val(result.sex);
+			            	 $('#address_v').val(result.address);
 			            	 console.log(result);
 			              
 			            }
